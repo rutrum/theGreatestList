@@ -41,7 +41,7 @@ class App {
         const notebookDOM = this.renderNotebook.bind(this)(newNotebook)
 
         //Add notebook to DOM
-        document.querySelector('#entry-list').appendChild(notebookDOM)
+        document.querySelector('#notebook-list').appendChild(notebookDOM)
     }
 
     //Creates notebook DOM
@@ -63,6 +63,8 @@ class App {
 
     //Changes current notebook and reloads entry list
     changeNotebook(notebook, event) {
+        //if first time selecting notebook, allow user to enter entry
+        document.querySelector('#input').style.display = "initial"
 
         //remove current-notebook class from previous notebook
         if(this.openNotebookId != -1) {
@@ -81,19 +83,57 @@ class App {
         openNotebookDOM.classList.add('current-notebook')
         this.openNotebookId = this.openNotebook.id
 
+        //wipe currently displayed entries
+        document.querySelector('#entry-list').innerHTML = ""
+
         //Reload journal entries
-        //TODO
+        this.renderNotebookEntries.bind(this)(this.openNotebook)
+    }
+
+    //rerender dom and print to screen for each notebook entry
+    renderNotebookEntries(notebook) {
+        for(let i = 0; i < notebook.entries.length; i++) {
+            const entryDOM = this.renderEntry(notebook.entries[i])
+            document.querySelector('#entry-list').appendChild(entryDOM)
+        }
     }
 
     //Adds a new journal entry to current notebook
     addEntry(event) {
         event.preventDefault()
         console.log("add note")
+
+        //Create entry from form and add to notebook
+        const form = event.target
+        const entryContent = form.entryContent.value
+        this.openNotebook.addEntry(new Date(), entryContent)
+
+        //print to screen
+        const entryDOM = this.renderEntry.bind(this)(this.openNotebook.entries[this.openNotebook.entries.length - 1])
+        document.querySelector('#entry-list').appendChild(entryDOM)
+        
+    }
+
+    renderEntry(entry) {
+        const entryDOM = this.entryTemplate.cloneNode(true)
+
+        //Remove template class and change id
+        entryDOM.classList.remove('template')
+        //entryDOM.setAttribute('id', 'n' + entry.entries.length)
+
+        //Add notebook information
+        entryDOM.querySelector('p.content').textContent = entry.content
+        entryDOM.querySelector('p.date').textContent = entry.date
+
+        //Add event listener for editing
+        // TODO
+
+        return entryDOM
     }
 
     //Save notebooks to local storage
     save() {
-        
+
     }
 
     //Load notebooks from local storage
@@ -112,10 +152,9 @@ class Notebook {
         this.isCurrentNotebook = false
     }
 
-    addEntry(date, content, id) {
-
-        newEntry = new Entry(date, content, id)
-
+    addEntry(date, content) {
+        const newEntry = new Entry(date, content, this.entries.length)
+        this.entries.push(newEntry);
     }
 
 }
