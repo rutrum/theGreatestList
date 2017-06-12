@@ -26,7 +26,7 @@ class App {
         event.preventDefault()
         console.log("add notebook")
 
-        this.currentNotebookId++;
+        this.currentNotebookId++
 
         //Create notebook from form
         const form = event.target
@@ -37,9 +37,24 @@ class App {
         this.notebooks.push(newNotebook)
 
         //Create notebook element
+        const notebookDOM = this.renderNotebook.bind(this)(newNotebook)
 
         //Add notebook to DOM
+        document.querySelector('#entry-list').appendChild(notebookDOM)
+    }
 
+    //Creates notebook DOM
+    renderNotebook(notebook) {
+        const notebookDOM = this.notebookTemplate.cloneNode(true)
+
+        //remove template class and id
+        notebookDOM.classList.remove('template')
+        notebookDOM.removeAttribute('id')
+
+        //add notebook information
+        notebookDOM.textContent = notebook.name
+
+        return notebookDOM
     }
 
     //Adds a new journal entry to current notebook
