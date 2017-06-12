@@ -3,6 +3,7 @@ class App {
     constructor() {
         this.notebooks = [];
         this.entryList = document.querySelector('#entry-list')
+        this.currentNotebookId = -1;
         this.currentNotebook = -1;
 
         //Find notebook template
@@ -25,10 +26,12 @@ class App {
         event.preventDefault()
         console.log("add notebook")
 
+        this.currentNotebookId++;
+
         //Create notebook from form
         const form = event.target
-        const notebookName = form.notebookName
-        const newNotebook = new Notebook(notebookName)
+        const notebookName = form.notebookName.value
+        const newNotebook = new Notebook(notebookName, this.currentNotebookId)
 
         //Add notebook to array
         this.notebooks.push(newNotebook)
@@ -65,6 +68,12 @@ class Notebook {
         this.entries = []
     }
 
+    addEntry(date, content, id) {
+
+        newEntry = new Entry(date, content, id)
+
+    }
+
 }
 
 class Entry {
@@ -78,4 +87,4 @@ class Entry {
 }
 
 //Start application
-new App()
+const app = new App()
