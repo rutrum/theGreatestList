@@ -4,7 +4,8 @@ class App {
         this.notebooks = [];
         this.entryList = document.querySelector('#entry-list')
         this.currentNotebookId = -1;
-        this.currentNotebook = -1;
+        this.openNotebookId = -1;
+        this.openNotebook = null;
 
         //Find notebook template
         this.notebookTemplate = document.querySelector('#notebook-template')
@@ -54,19 +55,34 @@ class App {
         //Add notebook information
         notebookDOM.textContent = notebook.name
 
-        debugger
-
         //Add event listener for changing notebooks
         notebookDOM.addEventListener('click', this.changeNotebook.bind(this, notebook))
-
-        debugger
 
         return notebookDOM
     }
 
     //Changes current notebook and reloads entry list
     changeNotebook(notebook, event) {
-        console.log("change to " + notebook.name)
+
+        //remove current-notebook class from previous notebook
+        if(this.openNotebookId != -1) {
+            let previousNotebook
+            for(let i = 0; i < this.notebooks.length; i++) {
+                if (this.notebooks[i].id === this.openNotebookId) {
+                    previousNotebook = this.notebooks[i]
+                }
+            }
+            const previousNotebookDOM = document.querySelector('#n' + previousNotebook.id)
+            previousNotebookDOM.classList.remove('current-notebook')
+        }
+        //add current-notebook class to new notebook
+        this.openNotebook = notebook
+        const openNotebookDOM = document.querySelector('#n' + this.openNotebook.id)
+        openNotebookDOM.classList.add('current-notebook')
+        this.openNotebookId = this.openNotebook.id
+
+        //Reload journal entries
+        //TODO
     }
 
     //Adds a new journal entry to current notebook
@@ -77,7 +93,7 @@ class App {
 
     //Save notebooks to local storage
     save() {
-
+        
     }
 
     //Load notebooks from local storage
@@ -93,6 +109,7 @@ class Notebook {
         this.name = name
         this.id = id
         this.entries = []
+        this.isCurrentNotebook = false
     }
 
     addEntry(date, content, id) {
