@@ -1,11 +1,11 @@
 class App {
 
     constructor() {
-        this.notebooks = [];
+        this.notebooks = []
         this.entryList = document.querySelector('#entry-list')
-        this.currentNotebookId = -1;
-        this.openNotebookId = -1;
-        this.openNotebook = null;
+        this.currentNotebookId = -1
+        this.openNotebookId = -1
+        this.openNotebook = null
 
         //Find notebook template
         this.notebookTemplate = document.querySelector('#notebook-template')
@@ -94,7 +94,8 @@ class App {
     renderNotebookEntries(notebook) {
         for(let i = 0; i < notebook.entries.length; i++) {
             const entryDOM = this.renderEntry(notebook.entries[i])
-            document.querySelector('#entry-list').appendChild(entryDOM)
+            const entryList = document.querySelector('#entry-list')
+            entryList.insertBefore(entryDOM, entryList.firstChild)
         }
     }
 
@@ -110,7 +111,8 @@ class App {
 
         //print to screen
         const entryDOM = this.renderEntry.bind(this)(this.openNotebook.entries[this.openNotebook.entries.length - 1])
-        document.querySelector('#entry-list').appendChild(entryDOM)
+        const entryList = document.querySelector('#entry-list')
+        entryList.insertBefore(entryDOM, entryList.firstChild)
         
     }
 
