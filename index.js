@@ -5,13 +5,19 @@ class App {
         this.entryList = document.querySelector('#entry-list')
         this.currentNotebook = -1;
 
+        //Find notebook template
+        this.notebookTemplate = document.querySelector('#notebook-template')
+
+        //Find entry template
+        this.entryTemplate = document.querySelector('#entry-template')
+
         //Add notebook submit listener
         document.querySelector('#add-notebook-form')
                 .addEventListener('submit', this.addNotebook.bind(this))
 
-        //Add note submit listner
+        //Add entry submit listner
         document.querySelector('#add-entry-form')
-                .addEventListener('submit', this.addNote.bind(this))
+                .addEventListener('submit', this.addEntry.bind(this))
     }
 
     //Adds a new notebooks
@@ -24,15 +30,17 @@ class App {
         const notebookName = form.notebookName
         const newNotebook = new Notebook(notebookName)
 
-        //Add notebook to DOM
-
         //Add notebook to array
-        notebooks.push(newNotebook)
+        this.notebooks.push(newNotebook)
+
+        //Create notebook element
+
+        //Add notebook to DOM
 
     }
 
     //Adds a new journal entry to current notebook
-    addNote(event) {
+    addEntry(event) {
         event.preventDefault()
         console.log("add note")
     }
@@ -54,12 +62,12 @@ class Notebook {
     constructor(name, id) {
         this.name = name
         this.id = id
-        this.notes = []
+        this.entries = []
     }
 
 }
 
-class Note {
+class Entry {
 
     constructor(date, content, id) {
         this.date = date
