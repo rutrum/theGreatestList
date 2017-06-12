@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>The Greatest List</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        
+        <!--Heading-->
+        <header>
+            <h1>THE GREATEST LIST</h1>
+        </header>
+        
+        <!--Allows user to add a new notebook-->
+        <section id="add-notebook">
+            <form id="add-notebook-form">
+                <input type="text" name="notebookName" placeHolder="New notebook">
+                <button id="add-notebook-submit" type="submit">Add</button>
+            </form>
+        </section>
+
+        <!--Where notebooks will be listed-->
+        <section id="notebook-list"></section>
+        
+        <!--Template for a notebook in the notebook list-->
+        <section id="notebook-list" class="template">
+            <span class="notebook"></span>
+        </section>
+
+        <!--Where a journal entry can be submitted-->
+        <section id="input">
+            <form id="add-entry-form">
+                <textarea id="entry-content" autofocus 
+                        name="Name" cols="30" rows="3" placeholder="Journal Entry"></textarea>
+                <button id="add-entry-submit" type="submit">Submit</button>
+            </form>
+        </section>
+
+        <!--Where the list of journal entries are displayed-->
+        <section id="entry-list"></section>
+
+        <!--Template for a journal entry in the entry list-->
+        <div class="entry template">
+            <p class="date">
+                This is today's Date: July fuckall 2017
+            </p>
+            <p class="content">
+                This is the content that I put into my journal entry.
+            </p>
+            <button class="edit">Edit</button>
+        </div>
+
+        <!--javascript sources-->
+        <script src="index.js"></script>
+        
+    </body>
+</html>
