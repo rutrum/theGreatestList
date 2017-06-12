@@ -47,14 +47,26 @@ class App {
     renderNotebook(notebook) {
         const notebookDOM = this.notebookTemplate.cloneNode(true)
 
-        //remove template class and id
+        //Remove template class and change id
         notebookDOM.classList.remove('template')
-        notebookDOM.removeAttribute('id')
+        notebookDOM.setAttribute('id', 'n' + notebook.id)
 
-        //add notebook information
+        //Add notebook information
         notebookDOM.textContent = notebook.name
 
+        debugger
+
+        //Add event listener for changing notebooks
+        notebookDOM.addEventListener('click', this.changeNotebook.bind(this, notebook))
+
+        debugger
+
         return notebookDOM
+    }
+
+    //Changes current notebook and reloads entry list
+    changeNotebook(notebook, event) {
+        console.log("change to " + notebook.name)
     }
 
     //Adds a new journal entry to current notebook
