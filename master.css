@@ -5,6 +5,8 @@ html {
 body {
     padding: 3rem 0 0 0;
     height: 100%;
+    width: 70%;
+    margin: 0 auto;
     font-family: 'Trebuchet MS';
     background: linear-gradient(#fffdaa, white);
     color: #333333;
