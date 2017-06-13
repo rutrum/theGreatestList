@@ -60,7 +60,7 @@ class App {
         notebookDOM.setAttribute('id', 'n' + notebook.id)
 
         //Add notebook information
-        notebookDOM.textContent = notebook.name
+        notebookDOM.textContent = notebook.id + ": " + notebook.name
 
         //Add event listener for changing notebooks
         notebookDOM.addEventListener('click', this.changeNotebook.bind(this, notebook))
@@ -188,7 +188,7 @@ class App {
             let i = 0;
             //delete entry from notebook
             for (i; i < this.notebooks.length; i++) {
-                if (this.notebooks[i].id == this.currentNotebookId) {
+                if (this.notebooks[i].id == this.openNotebookId) {
                     console.log("splicing")
                     this.notebooks.splice(i, 1)
                     break
