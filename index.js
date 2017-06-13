@@ -111,7 +111,7 @@ class App {
         //Create entry from form and add to notebook
         const form = event.target
         const entryContent = form.entryContent.value
-        this.addEntryToNotebook(this.openNotebook, new Date(), entryContent)
+        this.addEntryToNotebook(this.openNotebook, this.getDateString(), entryContent)
 
         //print to screen
         const entryDOM = this.renderEntry.bind(this)(this.openNotebook.entries[this.openNotebook.entries.length - 1])
@@ -120,6 +120,14 @@ class App {
 
         this.save()
 
+    }
+
+    getDateString() {
+        const date = new Date()
+        let dateString = ""
+        dateString += date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate()
+        dateString += " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+        return dateString
     }
 
     //Adds an entry to the notebook object
@@ -141,18 +149,64 @@ class App {
         entryDOM.querySelector('p.date').textContent = entry.date
 
         //Add event listener for editing
-        // TODO
+        entryDOM.querySelector('button.edit').addEventListener('click', this.edit.bind(this, entry))
+
+        //Add event listener for deleting
+        entryDOM.querySelector('button.delete').addEventListener('click', this.deleteEntry.bind(this, entry, entryDOM))
 
         return entryDOM
+    }
+
+    //deletes entry from list
+    deleteEntry(entry, entryDOM, event) {
+        if (confirm("Are you sure you want to delete this note?")) {
+
+            //delete entry from notebook
+            for (let i = 0; i < this.openNotebook.entries.length; i++) {
+                if (this.openNotebook.entries[i].id === entry.id) {
+                    console.log(i)
+                    this.openNotebook.entries.splice(i, 1)
+                    break;
+                }
+            }
+
+            //removes entry from DOM
+            entryDOM.style.display = "none"
+            
+            this.save()
+        }
+    }
+
+    //runs when user hits edit/save button
+    edit(entry, event) {
+        const entryDOM = event.target.closest('.entry')
+        const content = entryDOM.querySelector('.content')
+
+        if (content.isContentEditable) {
+            //saving
+            content.contentEditable = false
+            entry.content = content.textContent
+            entryDOM.querySelector('button').textContent = "Edit"
+            this.save()
+        } else {
+            //editing
+            content.contentEditable = true
+            content.focus()
+            entryDOM.querySelector('button').textContent = "Save"
+        }
     }
 
     //Save notebooks to local storage
     save() {
         localStorage.setItem('notebooks', JSON.stringify(this.notebooks))
+        localStorage.setItem('notebookId', JSON.stringify(this.currentNotebookId))
     }
 
     //Load notebooks from local storage
     load() {
+        const newNotebookId = localStorage.getItem('notebookId')
+        this.currentNotebookId = newNotebookId
+        
         const notebooksJSON = localStorage.getItem('notebooks')
         const notebooksArray = JSON.parse(notebooksJSON)
         if (notebooksArray) {
@@ -177,11 +231,6 @@ class Notebook {
         this.id = id
         this.entries = []
         this.isCurrentNotebook = false
-    }
-
-    addEntry(date, content) {
-        const newEntry = new Entry(date, content, this.entries.length)
-        this.entries.push(newEntry);
     }
 
 }
