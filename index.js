@@ -15,11 +15,13 @@ class App {
 
         //Add notebook submit listener
         document.querySelector('#add-notebook-form')
-                .addEventListener('submit', this.addNotebook.bind(this))
+            .addEventListener('submit', this.addNotebook.bind(this))
 
         //Add entry submit listner
         document.querySelector('#add-entry-form')
-                .addEventListener('submit', this.addEntry.bind(this))
+            .addEventListener('submit', this.addEntry.bind(this))
+
+        this.load.bind(this)()
     }
 
     //Adds a new notebooks
@@ -42,6 +44,8 @@ class App {
 
         //Add notebook to DOM
         document.querySelector('#notebook-list').appendChild(notebookDOM)
+
+        this.save()
     }
 
     //Creates notebook DOM
@@ -67,9 +71,9 @@ class App {
         document.querySelector('#input').style.display = "initial"
 
         //remove current-notebook class from previous notebook
-        if(this.openNotebookId != -1) {
+        if (this.openNotebookId != -1) {
             let previousNotebook
-            for(let i = 0; i < this.notebooks.length; i++) {
+            for (let i = 0; i < this.notebooks.length; i++) {
                 if (this.notebooks[i].id === this.openNotebookId) {
                     previousNotebook = this.notebooks[i]
                 }
@@ -92,7 +96,7 @@ class App {
 
     //rerender dom and print to screen for each notebook entry
     renderNotebookEntries(notebook) {
-        for(let i = 0; i < notebook.entries.length; i++) {
+        for (let i = 0; i < notebook.entries.length; i++) {
             const entryDOM = this.renderEntry(notebook.entries[i])
             const entryList = document.querySelector('#entry-list')
             entryList.insertBefore(entryDOM, entryList.firstChild)
@@ -107,15 +111,24 @@ class App {
         //Create entry from form and add to notebook
         const form = event.target
         const entryContent = form.entryContent.value
-        this.openNotebook.addEntry(new Date(), entryContent)
+        this.addEntryToNotebook(this.openNotebook, new Date(), entryContent)
 
         //print to screen
         const entryDOM = this.renderEntry.bind(this)(this.openNotebook.entries[this.openNotebook.entries.length - 1])
         const entryList = document.querySelector('#entry-list')
         entryList.insertBefore(entryDOM, entryList.firstChild)
-        
+
+        this.save()
+
     }
 
+    //Adds an entry to the notebook object
+    addEntryToNotebook(notebook, date, content) {
+        const newEntry = new Entry(date, content, notebook.entries.length)
+        notebook.entries.push(newEntry);
+    }
+
+    //Renders an entry
     renderEntry(entry) {
         const entryDOM = this.entryTemplate.cloneNode(true)
 
@@ -135,11 +148,23 @@ class App {
 
     //Save notebooks to local storage
     save() {
-
+        localStorage.setItem('notebooks', JSON.stringify(this.notebooks))
     }
 
     //Load notebooks from local storage
     load() {
+        const notebooksJSON = localStorage.getItem('notebooks')
+        const notebooksArray = JSON.parse(notebooksJSON)
+        if (notebooksArray) {
+            for (let i = 0; i < notebooksArray.length; i++) {
+                //save to array
+                this.notebooks.push(notebooksArray[i])
+
+                //create notebookDOM and print
+                const notebookDOM = this.renderNotebook.bind(this)(notebooksArray[i])
+                document.querySelector('#notebook-list').appendChild(notebookDOM)
+            }
+        }
 
     }
 
