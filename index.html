@@ -22,7 +22,7 @@
     <!--Allows user to add a new notebook-->
     <section id="add-notebook">
         <form id="add-notebook-form">
-            <input type="text" name="notebookName" required placeHolder="New notebook">
+            <input type="text" name="notebookName" autofocus required placeHolder="New notebook">
             <button id="add-notebook-submit" type="submit">Add</button>
         </form>
         <button id="del-notebook" style="display:none">Delete Notebook</button>
@@ -38,7 +38,7 @@
         <!--Where a journal entry can be submitted-->
         <section id="input" style="display: none">
             <form id="add-entry-form">
-                <textarea id="entry-content" name="entryContent" autofocus name="Name" cols="30" rows="3" placeholder="Journal Entry"></textarea>
+                <textarea id="entry-content" name="entryContent" required name="Name" cols="30" rows="3" placeholder="Journal Entry"></textarea>
                 <div id="button-div">
                     <button id="add-entry-submit" type="submit">Submit</button>
                 </div>

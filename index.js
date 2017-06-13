@@ -48,6 +48,8 @@ class App {
         //Add notebook to DOM
         document.querySelector('#notebook-list').appendChild(notebookDOM)
 
+        form.reset()
+
         this.save()
     }
 
@@ -60,7 +62,7 @@ class App {
         notebookDOM.setAttribute('id', 'n' + notebook.id)
 
         //Add notebook information
-        notebookDOM.textContent = notebook.id + ": " + notebook.name
+        notebookDOM.textContent = notebook.name
 
         //Add event listener for changing notebooks
         notebookDOM.addEventListener('click', this.changeNotebook.bind(this, notebook))
@@ -121,6 +123,8 @@ class App {
         const entryDOM = this.renderEntry.bind(this)(this.openNotebook.entries[this.openNotebook.entries.length - 1])
         const entryList = document.querySelector('#entry-list')
         entryList.insertBefore(entryDOM, entryList.firstChild)
+
+        form.reset()
 
         this.save()
 
