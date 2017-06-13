@@ -200,9 +200,11 @@ class App {
             document.querySelector('#n' + this.openNotebook.id).style.display = "none"
             this.openNotebook = null
             this.openNotebookId = -1
+            document.querySelector('#entry-list').innerHTML = ""
+            document.querySelector('#input').style.display = "none"
+
             //checks to see if notebook count is 0, and hides current buttons
             if (this.notebooks.length === 0) {
-                document.querySelector('#input').style.display = "none"
                 document.querySelector('#del-notebook').style.display = "none"
             }
             this.save()
