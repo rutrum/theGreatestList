@@ -17,6 +17,10 @@ class App {
         document.querySelector('#add-notebook-form')
             .addEventListener('submit', this.addNotebook.bind(this))
 
+        //Add delete notebook listener
+        document.querySelector('#del-notebook')
+            .addEventListener('click', this.deleteNotebook.bind(this))
+
         //Add entry submit listner
         document.querySelector('#add-entry-form')
             .addEventListener('submit', this.addEntry.bind(this))
@@ -27,7 +31,6 @@ class App {
     //Adds a new notebooks
     addNotebook(event) {
         event.preventDefault()
-        console.log("add notebook")
 
         this.currentNotebookId++
 
@@ -69,6 +72,7 @@ class App {
     changeNotebook(notebook, event) {
         //if first time selecting notebook, allow user to enter entry
         document.querySelector('#input').style.display = "initial"
+        document.querySelector('#del-notebook').style.display = "initial"
 
         //remove current-notebook class from previous notebook
         if (this.openNotebookId != -1) {
@@ -81,6 +85,7 @@ class App {
             const previousNotebookDOM = document.querySelector('#n' + previousNotebook.id)
             previousNotebookDOM.classList.remove('current-notebook')
         }
+
         //add current-notebook class to new notebook
         this.openNotebook = notebook
         const openNotebookDOM = document.querySelector('#n' + this.openNotebook.id)
@@ -106,7 +111,6 @@ class App {
     //Adds a new journal entry to current notebook
     addEntry(event) {
         event.preventDefault()
-        console.log("add note")
 
         //Create entry from form and add to notebook
         const form = event.target
@@ -146,7 +150,7 @@ class App {
 
         //Add notebook information
         entryDOM.querySelector('p.content').textContent = entry.content
-        entryDOM.querySelector('p.date').textContent = entry.date
+        entryDOM.querySelector('.date').textContent = entry.date
 
         //Add event listener for editing
         entryDOM.querySelector('button.edit').addEventListener('click', this.edit.bind(this, entry))
@@ -161,10 +165,10 @@ class App {
     deleteEntry(entry, entryDOM, event) {
         if (confirm("Are you sure you want to delete this note?")) {
 
+
             //delete entry from notebook
             for (let i = 0; i < this.openNotebook.entries.length; i++) {
                 if (this.openNotebook.entries[i].id === entry.id) {
-                    console.log(i)
                     this.openNotebook.entries.splice(i, 1)
                     break;
                 }
@@ -172,7 +176,35 @@ class App {
 
             //removes entry from DOM
             entryDOM.style.display = "none"
-            
+
+            this.save()
+        }
+    }
+
+    //deletes current notebook
+    deleteNotebook(event) {
+        if (confirm("Are you sure you want to delete this notebook?")) {
+
+            let i = 0;
+            //delete entry from notebook
+            for (i; i < this.notebooks.length; i++) {
+                if (this.notebooks[i].id == this.currentNotebookId) {
+                    console.log("splicing")
+                    this.notebooks.splice(i, 1)
+                    break
+                }
+            }
+
+            //removes entry from DOM
+            console.log("deleting notebook n" + this.openNotebookId)
+            document.querySelector('#n' + this.openNotebook.id).style.display = "none"
+            this.openNotebook = null
+            this.openNotebookId = -1
+            //checks to see if notebook count is 0, and hides current buttons
+            if (this.notebooks.length === 0) {
+                document.querySelector('#input').style.display = "none"
+                document.querySelector('#del-notebook').style.display = "none"
+            }
             this.save()
         }
     }
@@ -199,14 +231,14 @@ class App {
     //Save notebooks to local storage
     save() {
         localStorage.setItem('notebooks', JSON.stringify(this.notebooks))
-        localStorage.setItem('notebookId', JSON.stringify(this.currentNotebookId))
+        localStorage.setItem('notebookId', this.currentNotebookId)
     }
 
     //Load notebooks from local storage
     load() {
         const newNotebookId = localStorage.getItem('notebookId')
         this.currentNotebookId = newNotebookId
-        
+
         const notebooksJSON = localStorage.getItem('notebooks')
         const notebooksArray = JSON.parse(notebooksJSON)
         if (notebooksArray) {

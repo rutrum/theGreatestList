@@ -1,0 +1,45 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 4rem auto;
+    font-family: 'Trebuchet MS';
+    background: linear-gradient(#fffdaa, white);
+    color: #333333;
+}
+
+h1, h3 {
+    text-align: center;
+}
+
+#section {
+    width: 30rem;
+    margin: auto;
+}
+
+
+p {
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+#submit {
+    background: linear-gradient(yellow, pink);
+    border: solid black 2px;
+}
+
+button {
+    background: pink;
+    border: solid magenta 2px;
+    padding: 5px;
+    margin-right: 5px;
+}

@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>The Greatest List</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-        
-        <!--Heading-->
-        <header>
-            <h1>THE GREATEST LIST</h1>
-        </header>
-        
-        <!--Allows user to add a new notebook-->
-        <section id="add-notebook">
-            <form id="add-notebook-form">
-                <input type="text" name="notebookName" required placeHolder="New notebook">
-                <button id="add-notebook-submit" type="submit">Add</button>
-                <button id="del-notebook">Delete Notebook</button>
-            </form>
-        </section>
 
-        <!--Where notebooks will be listed-->
-        <section id="notebook-list"></section>
-        
-        <!--Template for a notebook in the notebook list-->
-        <span id="notebook-template" class="notebook template"></span>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The Greatest List</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="master.css">
+</head>
+
+<body>
+
+    <!--Heading-->
+    <header>
+        <h1>THE GREATEST LIST</h1>
+    </header>
+
+    <!--Allows user to add a new notebook-->
+    <section id="add-notebook">
+        <form id="add-notebook-form">
+            <input type="text" name="notebookName" required placeHolder="New notebook">
+            <button id="add-notebook-submit" type="submit">Add</button>
+        </form>
+        <button id="del-notebook" style="display:none">Delete Notebook</button>
+    </section>
+
+    <!--Where notebooks will be listed-->
+    <section id="notebook-list"></section>
+    <!--Template for a notebook in the notebook list-->
+    <div id="notebook-template" class="notebook template"></div>
+
+    <section id="page">
 
         <!--Where a journal entry can be submitted-->
         <section id="input" style="display: none">
             <form id="add-entry-form">
-                <textarea id="entry-content" name="entryContent" autofocus 
-                        name="Name" cols="30" rows="3" placeholder="Journal Entry"></textarea>
-                <button id="add-entry-submit" type="submit">Submit</button>
+                <textarea id="entry-content" name="entryContent" autofocus name="Name" cols="30" rows="3" placeholder="Journal Entry"></textarea>
+                <div id="button-div">
+                    <button id="add-entry-submit" type="submit">Submit</button>
+                </div>
             </form>
         </section>
 
@@ -44,18 +49,20 @@
 
         <!--Template for a journal entry in the entry list-->
         <div id="entry-template" class="entry template">
-            <p class="date">
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+            <span class="date">
                 This is today's Date: July fuckall 2017
-            </p>
+            </span>
             <p class="content">
                 This is the content that I put into my journal entry.
             </p>
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
         </div>
+    </section id="page">
 
-        <!--javascript sources-->
-        <script src="index.js"></script>
-        
-    </body>
+    <!--javascript sources-->
+    <script src="index.js"></script>
+
+</body>
+
 </html>

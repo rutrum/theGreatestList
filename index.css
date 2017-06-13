@@ -1,7 +1,78 @@
+body {
+    margin: 20px;
+}
+
+#page {
+    padding: 15px;
+}
+
 .current-notebook {
     border: solid black 1px;
 }
 
-.template {
+header {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.template,
+#notebook-template {
     display: none;
+}
+
+section#add-notebook {
+    text-align: center;
+    margin: 15px;
+    padding-bottom: 15px;
+}
+
+section#input {
+    text-align: center;
+    padding: 15px;
+}
+
+.content {
+    font-size: 18px;
+}
+
+form#add-notebook-form {
+    display: inline;
+}
+
+section#notebook-list {
+    text-align: center;
+}
+
+.button-div {
+    
+}
+
+#add-entry-form {
+    
+}
+
+#add-entry-submit {
+    float: center;
+}
+
+.notebook {
+    display: inline-block;
+    border-bottom: solid black 1px;
+    padding: 10px;
+}
+
+.entry {
+    padding: 10px;
+    background-color: #ffe5f8;
+}
+
+.entry:nth-child(2n-1) {
+    background-color: #ffeffa;
+}
+
+.notebook.current-notebook {
+    border-bottom: none;
+    border-top: solid black 1px;
+    border-right: solid black 1px;
+    border-left:  solid black 1px;
 }
